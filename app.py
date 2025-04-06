@@ -3,21 +3,28 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 import sqlite3 as sql
 import os
 
+
 app = Flask(__name__)
 app.secret_key = 'pooja123'
 
 # Initialize database if not exists
+import sqlite3
+import os
+
 def init_db():
-    if not os.path.exists("user.db"):
-        conn = sql.connect("user.db")
-        cur = conn.cursor()
-        cur.execute('''CREATE TABLE IF NOT EXISTS users (
-                        sno INTEGER PRIMARY KEY AUTOINCREMENT,
-                        RNAME TEXT NOT NULL,
-                        ATTACK_TYPE TEXT NOT NULL,
-                        CASES INTEGER NOT NULL)''')
-        conn.commit()
-        conn.close()
+    conn = sqlite3.connect('database.db')  # Or absolute path
+    cur = conn.cursor()
+    cur.execute('''
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            email TEXT NOT NULL UNIQUE
+        )
+    ''')
+    conn.commit()
+    conn.close()
+
+init_db()
 
 @app.route('/')
 @app.route('/index')
