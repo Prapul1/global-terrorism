@@ -3,7 +3,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 import sqlite3 as sql
 import os
 
-app = Flask(_name_)
+app = Flask(__name__)
 app.secret_key = 'pooja123'
 
 # Initialize database if not exists
@@ -119,6 +119,6 @@ def delete_user(sno):
     flash('Details deleted!', 'warning')
     return redirect(url_for("index"))
 
-if _name_ == '_main_':
+if __name__ == '_main_':
     init_db()  # Ensures DB and table is ready
     app.run(host='127.0.0.1', port=8005, debug=True)
